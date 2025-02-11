@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { Post } from './post.model';
+
+interface Post {
+  id: number;
+  title: any;
+  content: any;
+}
 
 @Component({
   selector: 'app-root',
