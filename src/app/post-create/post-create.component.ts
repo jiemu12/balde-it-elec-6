@@ -13,6 +13,7 @@ export class PostCreateComponent {
 
   onAddPost() {
     const post: Post = {
+      id: Math.random().toString(36).substr(2, 9),
       title: this.enteredTitle,
       content: this.enteredContent
     };

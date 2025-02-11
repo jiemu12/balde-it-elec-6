@@ -7,11 +7,8 @@ import { Post } from './post.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title(title: any) {
-    throw new Error('Method not implemented.');
-  }
+  title = 'it_elec_6a' 
   storedPosts: Post[] = [];
-
   onPostAdded(post: Post) {
     this.storedPosts.push(post);
   }
