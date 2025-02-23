@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 interface Post {
   id: number;
-  title: any;
-  content: any;
+  title: string;
+  content: string;
 }
 
 @Component({
