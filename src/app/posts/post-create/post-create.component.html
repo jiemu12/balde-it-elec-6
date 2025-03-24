@@ -1,21 +1,17 @@
-<mat-card>
-  <form (submit)="onAddPost(postForm)" #postForm="ngForm">
-    <mat-form-field>
-      <input matInput type="text" name="title" ngModel required
-      #title="ngModel" minlength="5" placeholder="Title">
-      <mat-error *ngIf="title.invalid">Please enter a title</mat-error>
+<mat-card class="post-form">
+  <mat-spinner *ngIf="Loading"></mat-spinner>  
+
+  <form (ngSubmit)="onSavePost(postForm)" #postForm="ngForm" *ngIf="!Loading" class="form-container">    
+      <mat-form-field class="full-width">
+          <input matInput type="text" name="title" [(ngModel)]="post.title" required minlength="3" placeholder="Enter Title Here" #title="ngModel">
+          <mat-error *ngIf="title.invalid && title.touched">Title is required and must be at least 3 characters.</mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <textarea
-        rows="6"
-        matInput
-        name="content"
-        ngModel="" required
-        #content="ngModel"
-        minlength="10"
-        placeholder="Content"></textarea>
-        <mat-error *ngIf="content.invalid">Please enter a content</mat-error>
+
+      <mat-form-field class="full-width">
+          <textarea rows="6" matInput name="content" [(ngModel)]="post.content" required minlength="3" placeholder="Content" #content="ngModel"></textarea>
+          <mat-error *ngIf="content.invalid && content.touched">Content is required and must be at least 3 characters.</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="warn" type="submit">Save Post</button>
+
+      <button mat-raised-button color="primary" type="submit" class="submit-btn" [disabled]="postForm.invalid">Submit</button>
   </form>
 </mat-card>

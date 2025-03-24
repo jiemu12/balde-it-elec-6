@@ -20,3 +20,7 @@ button {
   margin: 1rem 0;
   width: 200px;
 }
+
+mat-spinner {
+  margin: 1rem auto;
+}

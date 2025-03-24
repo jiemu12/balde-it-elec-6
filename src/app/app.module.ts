@@ -15,6 +15,8 @@ import { PostListComponent } from './posts/post-list/post-list.component';
 import { NgModel } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PostsService } from './posts/posts.service';
+import { AppRoutingModule } from './app-routing.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -22,8 +24,7 @@ import { PostsService } from './posts/posts.service';
     AppComponent,
     PostCreateComponent,
     HeaderComponent,
-    PostListComponent,
-    PostCreateComponent
+    PostListComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +36,9 @@ import { PostsService } from './posts/posts.service';
     MatCardModule,
     MatExpansionModule,
     MatToolbarModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
