@@ -83,17 +83,36 @@ router.put("/:id", upload, (req, res, next) => {
         });
 });  
 
-router.get("/", async (req, res) => {  
-    try {
-        const posts = await PostModel.find();
-        res.status(200).json({  
-            message: "Posts fetched successfully!",  
-            posts: posts  
-        });
-    } catch (error) {
-        res.status(500).json({ message: "Fetching posts failed!", error: error.message });
-    }
-});  
+router.get("", (req, res, next) => {
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const postQuery = PostModel.find();
+  let fetchedPosts;
+
+  if (pageSize && currentPage) {
+    postQuery
+      .skip(pageSize * (currentPage - 1))
+      .limit(pageSize);
+  }
+
+  postQuery
+    .then(documents => {
+      fetchedPosts = documents;
+      return PostModel.countDocuments();
+    })
+    .then(count => {
+      res.status(200).json({
+        message: "Posts fetched successfully!",
+        posts: fetchedPosts,
+        maxPosts: count
+      });
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "Fetching posts failed!"
+      });
+    });
+});
 
 router.get("/:id", (req, res, next) => {
   PostModel.findById(req.params.id).then(post => {
@@ -110,7 +129,7 @@ router.get("/:id", (req, res, next) => {
   });
 });  
 
-router.delete("/:id", async (req, res) => {  
+router.delete("/:id",  async (req, res) => {  
     try {
         const result = await PostModel.deleteOne({ _id: req.params.id });
 
@@ -124,4 +143,4 @@ router.delete("/:id", async (req, res) => {
     }
 });  
 
-module.exports = router;
+module.exports = router

@@ -19,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import {MatPaginatorModule} from '@angular/material/paginator';  
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { MatIconModule } from '@angular/material/icon';
     AppRoutingModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule  
   ],
   providers: [],
   bootstrap: [AppComponent]
