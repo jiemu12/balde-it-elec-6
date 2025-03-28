@@ -24,3 +24,31 @@ button {
 mat-spinner {
   margin: 1rem auto;
 }
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.image-preview {
+  height: 5rem;
+  margin: 1rem 0;
+}
+
+.image-preview img {
+  height: 100%;
+}
+
+.image-upload {
+  margin: 1rem 0;
+  width: 100%;
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-container {
+  width: 100%;
+  padding: 1rem;
+}
