@@ -19,7 +19,8 @@ export class PostsService {
                     return postData.posts.map((post: any) => ({
                         id: post._id,
                         title: post.title,
-                        content: post.content
+                        content: post.content,
+                        imagePath: post.imagePath
                     }));
                 }),
                 catchError(error => {
@@ -38,50 +39,84 @@ export class PostsService {
     }
 
     getPost(id: string): Observable<Post> {
-        return this.http.get<{ _id: string; title: string; content: string }>(`http://localhost:3000/api/posts/${id}`)
-            .pipe(
-                map(postData => {
-                    if (!postData) {
-                        throw new Error("Post not found!");
-                    }
-                    return {
-                        id: postData._id,
-                        title: postData.title,
-                        content: postData.content
-                    };
-                }),
-                catchError(error => {
-                    console.error("Error fetching post:", error);
-                    return throwError(() => new Error("Error fetching post"));
-                })
-            );
+        return this.http.get<{ _id: string; title: string; content: string; imagePath: string }>(
+            `http://localhost:3000/api/posts/${id}`
+        ).pipe(
+            map(postData => {
+                return {
+                    id: postData._id,
+                    title: postData.title,
+                    content: postData.content,
+                    imagePath: postData.imagePath
+                };
+            })
+        );
     }
-    addPost(title: string, content: string) {
-        const post: Post = { id: null, title: title, content: content };
-        this.http.post<{ message: string, postId: string }>('http://localhost:3000/api/posts', post)
+
+    addPost(title: string, content: string, image: File) {
+        const postData = new FormData();
+        postData.append('title', title);
+        postData.append('content', content);
+        postData.append('image', image, title);
+
+        this.http
+            .post<{ message: string; post: Post }>(
+                'http://localhost:3000/api/posts',
+                postData
+            )
             .subscribe({
                 next: (responseData) => {
-                    console.log("Post added:", responseData);
-                    const id = responseData.postId;
-                    post.id = id;
+                    const post: Post = {
+                        id: responseData.post.id,
+                        title: title,
+                        content: content,
+                        imagePath: responseData.post.imagePath
+                    };
                     this.posts.push(post);
                     this.postsUpdated.next([...this.posts]);
-                    this.router.navigate(["/"]);
+                    this.router.navigate(['/']);
                 }
             });
     }
     
 
-    updatePost(id: string, title: string, content: string) {
-        const post: Post = { id: id, title: title, content: content };
-        this.http.put(`http://localhost:3000/api/posts/${id}`, post)
-            .subscribe(() => {
-                const updatedPosts = [...this.posts];
-                const oldPostIndex = updatedPosts.findIndex(p => p.id === id);
-                updatedPosts[oldPostIndex] = post;
-                this.posts = updatedPosts;
-                this.postsUpdated.next([...this.posts]);
-                this.router.navigate(["/"]);
+    updatePost(id: string, title: string, content: string, image: File | string) {
+        let postData: FormData | Post;
+        
+        if (typeof image === 'object') {
+            // If a new file is selected
+            postData = new FormData();
+            postData.append('id', id);
+            postData.append('title', title);
+            postData.append('content', content);
+            postData.append('image', image, title);
+        } else {
+            // If no new file is selected
+            postData = {
+                id: id,
+                title: title,
+                content: content,
+                imagePath: image
+            };
+        }
+
+        this.http
+            .put<{ message: string, post: Post }>(`http://localhost:3000/api/posts/${id}`, postData)
+            .subscribe({
+                next: (response) => {
+                    const updatedPosts = [...this.posts];
+                    const oldPostIndex = updatedPosts.findIndex(p => p.id === id);
+                    const post: Post = {
+                        id: id,
+                        title: title,
+                        content: content,
+                        imagePath: response.post.imagePath
+                    };
+                    updatedPosts[oldPostIndex] = post;
+                    this.posts = updatedPosts;
+                    this.postsUpdated.next([...this.posts]);
+                    this.router.navigate(['/']);
+                }
             });
     }
 
