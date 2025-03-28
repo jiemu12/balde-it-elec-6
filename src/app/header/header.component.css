@@ -1,14 +1,35 @@
-ul{  
-  list-style: none;  
-  padding: 0;  
-  margin: 0;  
-}  
+mat-toolbar {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+  padding: 0 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
 
-a{  
-  text-decoration: none;  
-  color: white;  
-}  
+.spacer {
+  flex: 1 1 auto;
+}
 
-.spacer{  
-  flex: 1 1 auto;  
-}  
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 2rem;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+}
+
+a.active {
+  background: rgba(255,255,255,0.2);
+}

@@ -5,6 +5,9 @@
 
 .info-text {
   text-align: center;
+  color: #666;
+  margin: 2rem 0;
+  font-size: 1.1rem;
 }
 
 mat-accordion {
@@ -18,24 +21,36 @@ mat-spinner {
 }
 
 .post-container {
-  width: 80%;
-  max-width: 800px;
+  width: 70%;
+  max-width: 600px;
   margin: 1rem auto;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
 }
 
 .post-image {
   width: 100%;
   margin: 1rem 0;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .post-image img {
-  max-width: 100%;
-  max-height: 300px;
-  object-fit: contain;
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-image img:hover {
+  transform: scale(1.02);
 }
 
 .post-content {
   margin: 1rem 0;
+  line-height: 1.6;
+  color: #555;
 }
 
 mat-expansion-panel {
@@ -47,6 +62,21 @@ mat-action-row {
   gap: 1rem;
 }
 
-mat-paginator{  
-  margin-top: 1rem;  
+.action-buttons {
+  gap: 1rem;
+}
+
+.action-buttons a, 
+.action-buttons button {
+  transition: all 0.3s ease;
+}
+
+.action-buttons a:hover, 
+.action-buttons button:hover {
+  transform: translateY(-2px);
+}
+
+mat-paginator {
+  background: transparent;
+  margin-top: 2rem;
 }  
