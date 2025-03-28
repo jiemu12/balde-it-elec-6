@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const PostModel = require("../models/post");
-const extractFile = require("../middleware/file");
 const multer = require("multer");
 
 const MIME_TYPE_MAP = {
@@ -26,7 +25,9 @@ const storage = multer.diskStorage({
   }
 });
 
-router.post("/", extractFile, async (req, res) => {  
+const upload = multer({ storage: storage }).single("image");
+
+router.post("/", upload, async (req, res) => {  
     try {
         const url = req.protocol + '://' + req.get("host");
         const post = new PostModel({  
@@ -51,7 +52,7 @@ router.post("/", extractFile, async (req, res) => {
     }
 });  
 
-router.put("/:id", multer({storage: storage}).single("image"), (req, res, next) => {
+router.put("/:id", upload, (req, res, next) => {
     let imagePath = req.body.imagePath;
     if (req.file) {
         const url = req.protocol + '://' + req.get("host");
